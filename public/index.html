@@ -1,0 +1,42 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Job Listings</h1>
+        <a href="post-job.html" class="btn btn-success">Post a Job</a>
+      </div>
+      
+      <div id="job-list"></div>
+    </div>
+  </body>
+  <script>
+    fetch('http://localhost:3500/postjob')
+      .then(response => response.json())
+      .then(data => {
+        const jobList = document.getElementById('job-list');
+        data.forEach(job => {
+          jobList.innerHTML += `
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">${job.JobTitle}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Company:</strong>${job.CompanyName}</h6>
+                <p class="card-text">Description:</strong>${job.JobDescription}</p>
+                <p><strong>Location:</strong> ${job.Location}</p>
+                <p><strong>Salary:</strong> ₹${job.Salary}</p>
+                <a href="apply.html" class="btn btn-primary">Apply</a>
+              </div>
+            </div>
+          `;
+        });
+      })
+      .catch(error => console.log('Error fetching jobs:', error));
+  </script>
+  
+  </html>
